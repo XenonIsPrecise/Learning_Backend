@@ -5,7 +5,11 @@ const{getBootcamps,
     createBootcamp,
     updateBootcamp,
     deleteBootcamp,
+    bootcampPhotoUpload,
 deleteAllBootcamps} = require("../controllers/bootcamps")
+
+const Bootcamp = require("../models/Bootcamps");
+const advancedResults = require("../middleware/advancedResults");
 
 // Include other resource routers
 const courseRouter = require("./courses");
@@ -15,8 +19,14 @@ router.use("/:bootcampId/courses", courseRouter);
 
 
 
-router.route("/").get(getBootcamps).post(createBootcamp);
+router
+.route("/")
+.get(advancedResults(Bootcamp,'courses'),getBootcamps)
+.post(createBootcamp);
+
 router.route("/deleteall").delete(deleteAllBootcamps);
 router.route("/:id").get(getBootcamp).put(updateBootcamp).delete(deleteBootcamp);
+router.route("/:id/photo").put(bootcampPhotoUpload);
+
 
 module.exports = router;
