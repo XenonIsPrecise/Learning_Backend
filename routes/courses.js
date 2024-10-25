@@ -1,4 +1,5 @@
 const express = require('express');
+const {protect,authorize} = require('../middleware/auth');
 const {
     getCourses,
     getCourse,
@@ -17,8 +18,11 @@ router.route('/')
     path: 'bootcamp',
     select: 'name description'
 }),getCourses)
-.post(addCourse);
-router.route('/:id').get(getCourse).delete(deleteCourse).put(updateCourse);
+.post(protect,authorize('publisher','admin'),addCourse);
+router.route('/:id')
+.get(getCourse)
+.delete(protect,authorize('publisher','admin'),deleteCourse)
+.put(protect,authorize('publisher','admin'),updateCourse);
 
 module.exports = router;
 
