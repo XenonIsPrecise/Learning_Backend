@@ -11,6 +11,8 @@ const {
 const Course = require('../models/Courses');
 const advancedResults = require('../middleware/advancedResults');
 
+const {check} = require('express-validator'); // for git push
+
 
 const router = express.Router(({mergeParams: true}));
 router.route('/')
